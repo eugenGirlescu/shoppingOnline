@@ -8,3 +8,9 @@ $( document ).ready(function() {
 
 });
 
+function addCategory()
+{
+    $.get('categories/create', {} , function(data) {
+        $('#add_category').html(data);
+    })
+}
