@@ -19,7 +19,7 @@
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="listing_categories">
                         @foreach($categories as $category)
                         @include('category.tableItems')
                         @endforeach

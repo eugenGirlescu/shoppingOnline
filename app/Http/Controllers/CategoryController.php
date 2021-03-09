@@ -7,6 +7,12 @@ use App\Category;
 
 class CategoryController extends Controller
 {
+
+    
+    public function __construct(Category $category)
+    {
+        $this->category = $category;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -37,7 +43,11 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $inputs = $request->all();
+
+        $cat = $this->category->create($inputs);
+        
+        return view('category/tableItems')->withCategory($cat);
     }
 
     /**
