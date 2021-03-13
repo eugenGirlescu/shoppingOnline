@@ -3,9 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Product;
+use App\Category;
 
 class ProductController extends Controller
 {
+    public function __construct(Product $product)
+    {
+        $this->product = $product;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +19,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = $this->product->with('category')->get();
+     
+
+        return view('product.index', compact('products'));
     }
 
     /**
@@ -23,7 +32,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::get();
+
+        return view('product.create', compact('categories'));
     }
 
     /**
@@ -34,7 +45,12 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $inputs = $request->all();
+
+        $product = $this->product->create($inputs);
+
+        return view('product.tableItems', compact('product'));
+       
     }
 
     /**

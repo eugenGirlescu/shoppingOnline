@@ -65,3 +65,37 @@ function removeError()
     
         });
     }
+
+    ///////////////////////////////////////////////////////////
+
+    function addProduct() {
+        $.get('products/create', {} , function(response) {
+            $('#add-product').html(response)
+        })
+    }
+
+    function saveProduct() {
+        let data = $('#product-form').serializeArray();
+        let productName = $('#add-prod').val();
+        let dateName = $('#add-date').val();
+
+        let isEmpty = 1;
+
+        if(productName == "") {
+            $('#prod-error').text('product name required')
+            isEmpty = 0;
+        }
+
+        if(dateName =="") {
+            $('#date-error').text('date required')
+            isEmpty = 0;
+        }
+
+        if(isEmpty == 1) {
+            $.post('products', data , function(response) {
+                $('#listing_products').append(response)
+                $('#product-form').remove();
+            })
+        }
+
+    }
