@@ -40,3 +40,28 @@ function removeError()
     {
         $('#error').text('');
     }
+
+    function editCategory(id) {
+        $.get('categories/' + id + '/edit', {} , function(response) {
+            $('#item_' + id).replaceWith(response)
+        })
+    }
+
+    function updateCategory(id) {
+        let categName = $('#category-name_' + id).val();
+
+        let data = {
+            categName : categName
+        };
+
+        $.ajax({
+            url: '/categories/' + id,
+            type: 'PUT',
+            data: data,
+            success: function (result) {
+              
+                $("#edit-item_" + id).replaceWith(result);
+            }
+    
+        });
+    }

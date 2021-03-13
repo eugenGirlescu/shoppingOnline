@@ -69,7 +69,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = $this->category->find($id);
+
+        return view('category.edit')->withCategory($category);
     }
 
     /**
@@ -81,7 +83,13 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $inputs = $request->all();
+        $category = $this->category->find($id);
+        $category->name = $inputs['categName'];
+        $category->update();
+    
+
+        return view('category.tableItems')->withCategory($category);
     }
 
     /**
