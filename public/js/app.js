@@ -97,5 +97,43 @@ function removeError()
                 $('#product-form').remove();
             })
         }
+    }
 
+    function removeError(input) {
+        if(input == 'add-prod') {
+            $('#prod-error').text('')
+        }
+
+        if(input == 'expire-date') {
+            $('#date-error').text('')
+        }
+    }
+
+    function editProduct(id) {
+        $.get('/products/' + id + '/edit', {} , function(response) {
+            $('#item_prod_' + id).replaceWith(response)
+        })
+    }
+
+    function updateCategory(id) {
+        let prodName = $('#product-name_' + id).val();
+        let dateName = $('#expire-date_' + id).val();
+        let categName = $('#category_id').val();
+
+        let data = {
+            prodName : prodName,
+            categName : categName,
+            dateName : dateName
+        }
+
+        $.ajax({
+            url: '/products/' + id,
+            type: 'PUT',
+            data: data,
+            success: function (result) {
+              
+                $("#edit-item_" + id).replaceWith(result);
+            }
+    
+        });
     }

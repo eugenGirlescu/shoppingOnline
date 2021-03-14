@@ -1,11 +1,11 @@
 <form class="row justify-content-center pb-3 pt-3 border text-center" id="product-form">
     <div class="col-sm-3 text-center form-group">
         <input type="text" name="name" id="add-prod" placeholder='Enter product here...' autocomplete="off"
-            onkeydown="removeError();" />
+            onkeydown="removeError('add-prod');" />
         <span id="prod-error" class="text-danger"></span>
     </div>
     <div class="col-sm-3  text-center form-group">
-        <input type="date" name="expire_date" id="add-date" onchange="removeError();" />
+        <input type="date" name="expire_date" id="add-date" onchange="removeError('expire-date');" />
         <span id="date-error" class="text-danger"></span>
     </div>
     <div class="col-sm-3  text-center form-group">

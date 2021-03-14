@@ -72,7 +72,10 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $categories = Category::get();
+        $product = $this->product->find($id);
+       
+        return view('product.edit', compact('product', 'categories'));
     }
 
     /**
@@ -84,7 +87,16 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $inputs = $request->all();
+
+        $product = $this->product->find($id);
+        $product->category_id = $inputs['categName'];
+        $product->name = $inputs['prodName'];
+        $product->expire_date = $inputs['dateName'];
+        $product->update();
+
+        return view('product.tableItems', compact('product'));
+
     }
 
     /**
