@@ -102,4 +102,22 @@ class CategoryController extends Controller
     {
         //
     }
+
+    public function checkIfExists($categ) {
+        $categName = $this->category->where('name', $categ)->exists();
+
+        if($categName) {
+            return 'exist';
+        }
+        return 'notExist';
+    }
+
+    public function checkOnUpdate($id, $name) {
+        $categName = $this->category->where('name', $name)->where('id', '!=', $id)->exists();
+
+        if($categName) {
+            return 'exist';
+        }
+        return 'notExist';
+    }
 }

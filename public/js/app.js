@@ -29,10 +29,16 @@ function saveCategory()
 
     if(isEmpty == 1)
     {
-        $.post('categories', data , function(response) {
-            $('#listing_categories').append(response)
-            $('#category_form').remove()
-        });
+        $.get('check-exist/' + categInput, {} , function(result) {
+            if(result == 'notExist') {
+                $.post('categories', data , function(response) {
+                    $('#listing_categories').append(response)
+                    $('#category_form').remove()
+                });
+            }else {
+                $('#error').text('category already exist')
+            }
+        })
     }
 }
 
@@ -49,21 +55,34 @@ function removeError()
 
     function updateCategory(id) {
         let categName = $('#category-name_' + id).val();
+        let isEmpty = 1;
 
         let data = {
             categName : categName
         };
 
-        $.ajax({
-            url: '/categories/' + id,
-            type: 'PUT',
-            data: data,
-            success: function (result) {
-              
-                $("#edit-item_" + id).replaceWith(result);
+        if(categName == "") {
+            $('#categ-update').text('category required');
+            isEmpty = 0;
+        }
+
+       if(isEmpty == 1) {
+
+        $.get('check-exist-update/' +id + '/' + categName, {} , function(resp) {
+            if(resp == 'notExist') {
+                $.ajax({
+                    url: '/categories/' + id,
+                    type: 'PUT',
+                    data: data,
+                    success: function (result) {
+                      
+                        $("#edit-item_" + id).replaceWith(result);
+                    }
+            
+                });
             }
-    
-        });
+        })
+       }
     }
 
     ///////////////////////////////////////////////////////////
@@ -115,25 +134,44 @@ function removeError()
         })
     }
 
-    function updateCategory(id) {
+    function updateProduct(id) {
         let prodName = $('#product-name_' + id).val();
         let dateName = $('#expire-date_' + id).val();
         let categName = $('#category_id').val();
+        let isEmpty = 1;
 
-        let data = {
-            prodName : prodName,
-            categName : categName,
-            dateName : dateName
+        if(prodName == "") {
+            $('#prod-error').text('name required');
+            isEmpty = 0;
         }
 
-        $.ajax({
-            url: '/products/' + id,
-            type: 'PUT',
-            data: data,
-            success: function (result) {
-              
-                $("#edit-item_" + id).replaceWith(result);
+        if(dateName == "") {
+            $('#date-error').text('date required');
+            isEmpty = 0;
+        }
+
+        if(isEmpty == 1) {
+
+            let data = {
+                prodName : prodName,
+                categName : categName,
+                dateName : dateName
             }
-    
-        });
+            
+            $.ajax({
+                url: '/products/' + id,
+                type: 'PUT',
+                data: data,
+                success: function (result) {
+                  
+                    $("#edit-item_" + id).replaceWith(result);
+                }
+        
+            });
+        }
     }
+
+    function removeEditError() {
+        $('#prod-error').text('');
+    }
+

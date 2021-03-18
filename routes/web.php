@@ -24,3 +24,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/categories', 'CategoryController');
 
 Route::resource('/products', 'ProductController');
+
+Route::get('check-exist/{name}', 'CategoryController@checkIfExists');
+
+Route::get('check-exist-update/{id}/{name}', 'CategoryController@checkOnUpdate');
