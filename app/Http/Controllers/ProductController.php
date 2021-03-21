@@ -50,7 +50,6 @@ class ProductController extends Controller
         $product = $this->product->create($inputs);
 
         return view('product.tableItems', compact('product'));
-       
     }
 
     /**
@@ -96,7 +95,6 @@ class ProductController extends Controller
         $product->update();
 
         return view('product.tableItems', compact('product'));
-
     }
 
     /**
@@ -107,6 +105,15 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
+    }
+
+    public function checkIfExists($productName, $categId)
+    {
+        $prod = Product::where('name', $productName)->where('category_id', $categId)->exists();
         
+        if ($prod) {
+            return 'exist';
+        }
+        return 'notExist';
     }
 }

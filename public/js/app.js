@@ -78,7 +78,6 @@ function removeError()
                       
                         $("#edit-item_" + id).replaceWith(result);
                     }
-            
                 });
             }
         })
@@ -95,6 +94,7 @@ function removeError()
 
     function saveProduct() {
         let data = $('#product-form').serializeArray();
+        let categId = $('#category_id').val();
         let productName = $('#add-prod').val();
         let dateName = $('#add-date').val();
 
@@ -111,9 +111,16 @@ function removeError()
         }
 
         if(isEmpty == 1) {
-            $.post('products', data , function(response) {
-                $('#listing_products').append(response)
-                $('#product-form').remove();
+            $.get('check-prod/' + productName + '/' + categId, {} , function(res) {
+               
+                if(res == 'notExist') {
+                    $.post('products', data , function(response) {
+                        $('#listing_products').append(response)
+                        $('#product-form').remove();
+                    })
+                }else {
+                    $('#prod-error').text('product already exist in this category')
+                }
             })
         }
     }
@@ -166,7 +173,6 @@ function removeError()
                   
                     $("#edit-item_" + id).replaceWith(result);
                 }
-        
             });
         }
     }

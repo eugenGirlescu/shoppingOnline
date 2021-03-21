@@ -28,3 +28,7 @@ Route::resource('/products', 'ProductController');
 Route::get('check-exist/{name}', 'CategoryController@checkIfExists');
 
 Route::get('check-exist-update/{id}/{name}', 'CategoryController@checkOnUpdate');
+
+Route::get('check-prod/{name}/{categId}', 'ProductController@checkIfExists');
+
+//Route::get('check-prod-update', 'ProductController@checkOnUpdate');
