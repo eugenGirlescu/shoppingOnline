@@ -7,8 +7,6 @@ use App\Category;
 
 class CategoryController extends Controller
 {
-
-    
     public function __construct(Category $category)
     {
         $this->category = $category;
@@ -22,7 +20,7 @@ class CategoryController extends Controller
     {
         $categories = Category::with('products')->get();
 
-        return view('category.index',compact('categories'));
+        return view('category.index', compact('categories'));
     }
 
     /**
@@ -98,24 +96,28 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return redirect()->route('categories.index');
     }
 
-    public function checkIfExists($categ) {
+    public function checkIfExists($categ)
+    {
         $categName = $this->category->where('name', $categ)->exists();
 
-        if($categName) {
+        if ($categName) {
             return 'exist';
         }
         return 'notExist';
     }
 
-    public function checkOnUpdate($id, $name) {
+    public function checkOnUpdate($id, $name)
+    {
         $categName = $this->category->where('name', $name)->where('id', '!=', $id)->exists();
 
-        if($categName) {
+        if ($categName) {
             return 'exist';
         }
         return 'notExist';
