@@ -165,15 +165,21 @@ function removeError()
                 dateName : dateName
             }
             
-            $.ajax({
-                url: '/products/' + id,
-                type: 'PUT',
-                data: data,
-                success: function (result) {
-                  
-                    $("#edit-item_" + id).replaceWith(result);
+            $.get('check-prod-update/' + id + '/' + prodName + '/' + categName, {} , function(res) {
+                if(res == 'not exist') {
+                    $.ajax({
+                        url: '/products/' + id,
+                        type: 'PUT',
+                        data: data,
+                        success: function (result) {
+                          
+                            $("#edit-item_" + id).replaceWith(result);
+                        }
+                    });
+                } else {
+                    $('#prod-error').text('product already exist in this category!')
                 }
-            });
+            })
         }
     }
 

@@ -116,4 +116,14 @@ class ProductController extends Controller
         }
         return 'notExist';
     }
+
+    public function checkOnUpdate($id, $name, $categId)
+    {
+        $prodUpdate = $this->product->where('name', $name)->where('id', '!=', $id)->where('category_id', $categId)->exists();
+        
+        if ($prodUpdate) {
+            return 'exist';
+        }
+        return 'not exist';
+    }
 }
