@@ -3,6 +3,18 @@
     <td>{{  $product->category->name }}</td>
     <td>{{ $product->expire_date }}</td>
     <td>
+        <form action="/add-order-items" method="post" class="mr-2">
+            @csrf
+            <select class="custom-select" id="quantity" name="quantity">
+
+            </select>
+    </td>
+    <td>
+        <input type="hidden" name="product_id" class="form-control" value="{{$product->id}}">
+        <button type="submit" class="btn btn-success">
+            Add to cart
+        </button>
+        </form>
         <a class="btn btn-primary btn-md" onclick="editProduct({{ $product->id }});">Edit</a>
 
         <button class="btn btn-danger btn-md" data-toggle="modal" data-target="#categoryModal"
@@ -43,5 +55,13 @@
 <script>
 $(document).ready(function() {
     $("#categoryModal").on("show.bs.modal");
+});
+
+$(function() {
+    var select = '';
+    for (i = 1; i <= 15; i++) {
+        select += '<option val=' + i + '>' + i + '</option>';
+    }
+    $('.custom-select').html(select);
 });
 </script>

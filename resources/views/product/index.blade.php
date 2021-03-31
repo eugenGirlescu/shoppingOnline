@@ -17,6 +17,7 @@
                                 <th scope="col">Product</th>
                                 <th scope="col">Category</th>
                                 <th scope="col">Expire date</th>
+                                <th scope="col">Quantity</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>

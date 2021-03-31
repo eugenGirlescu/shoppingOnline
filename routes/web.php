@@ -32,3 +32,5 @@ Route::get('check-exist-update/{id}/{name}', 'CategoryController@checkOnUpdate')
 Route::get('check-prod/{name}/{categId}', 'ProductController@checkIfExists');
 
 Route::get('check-prod-update/{id}/{name}/{categId}', 'ProductController@checkOnUpdate');
+
+Route::post('add-order-items', 'OrderController@addItems');
