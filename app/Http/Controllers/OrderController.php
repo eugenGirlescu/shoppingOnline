@@ -122,4 +122,28 @@ class OrderController extends Controller
 
         return redirect()->route('products.index');
     }
+
+    public function showCart()
+    {
+        $loggedUser = Auth::user()->id;
+        $userOrder = Order::with('orderParts')
+                            ->where('user_id', $loggedUser)
+                            ->where('status', 'DRAFT')
+                            ->orderBy('created_at', 'DESC')
+                            ->first();
+
+        $totalPrice = 0;
+
+        if ($userOrder == null) {
+            return view('cart.index');
+        }
+
+        if (count($userOrder->orderParts)) {
+            foreach ($userOrder->orderParts as $part) {
+                $totalPrice += $part->price;
+            }
+        }
+
+        return view('cart.index', compact('userOrder', 'totalPrice'));
+    }
 }

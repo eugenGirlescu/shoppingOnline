@@ -34,3 +34,5 @@ Route::get('check-prod/{name}/{categId}', 'ProductController@checkIfExists');
 Route::get('check-prod-update/{id}/{name}/{categId}', 'ProductController@checkOnUpdate');
 
 Route::post('add-order-items', 'OrderController@addItems');
+
+Route::get('show-cart-items', 'OrderController@showCart')->name('cart');
