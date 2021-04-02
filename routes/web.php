@@ -36,3 +36,9 @@ Route::get('check-prod-update/{id}/{name}/{categId}', 'ProductController@checkOn
 Route::post('add-order-items', 'OrderController@addItems');
 
 Route::get('show-cart-items', 'OrderController@showCart')->name('cart');
+
+Route::post('delete-part', 'OrderController@deleteOrderPart');
+
+Route::post('update-order-status', 'OrderController@updateOrderStatus');
+
+Route::resource('orders', 'OrderController');

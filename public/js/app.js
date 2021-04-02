@@ -187,3 +187,41 @@ function removeError()
         $('#prod-error').text('');
     }
 
+    function placeOrder() {
+        let delivery = $('#delivery_type').val();
+        let hour = $('#hour').val();
+        let status = $('#status').val();
+        let totalPrice = $('#total').val();
+
+        if(hour == "") {
+            alert('Please select hour');
+            
+            return false;
+        }
+
+        const data = {
+            'delivery': delivery,
+            'hour': hour,
+            'status': status,
+            'totalPrice': totalPrice
+        }
+
+        $.post('update-order-status', data , function(resp) {
+            $('#myCart').replaceWith(resp);
+        });
+    }
+
+    function updateStatus(id) {
+        let status = $('#status_' + id).val();
+
+        const data = {
+            'status': status,
+            'id': id
+        }
+
+        $.post('update-order-status', data , function(response) {
+            alert('Status has been updated!')
+            location.reload()
+        })
+    }
+

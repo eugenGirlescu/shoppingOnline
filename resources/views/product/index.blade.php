@@ -9,6 +9,11 @@
                 <button class="btn btn-success" onclick="addProduct();">Add product</button>
             </div>
             <div id="add-product"></div>
+            @if ($message = Session::get('success'))
+            <div class="alert alert-success">
+                <p>{{ session()->get('success') }} </p>
+            </div>
+            @endif
             <div class="card" style="width: 55.5em;margin:0 auto;">
                 <div class="card-body">
                     <table class="table table-striped table-hover table-white table-responsive-lg ">

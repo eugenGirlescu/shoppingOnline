@@ -17,7 +17,9 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $orders = Order::with('user')->where('status', '!=', 'DRAFT')->get();
+        
+        return view('admin.index', compact('orders'));
     }
 
     /**
@@ -49,7 +51,9 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        $order = Order::find($id)->with('orderParts')->first();
+
+        return view('admin.orderDetails', compact('order'));
     }
 
     /**
@@ -90,7 +94,10 @@ class OrderController extends Controller
     {
         $inputs = $request->all();
         $loggedUserId = Auth::user()->id;
-        $checkIfOrderExists = Order::where('user_id', $loggedUserId)->where('status', ' DRAFT')->exists();
+        $checkIfOrderExists = Order::where('user_id', $loggedUserId)
+                                        ->where('status', 'DRAFT')
+                                        ->exists();
+        // dd($checkIfOrderExists);
 
         if (!$checkIfOrderExists) {
             $params['user_id'] = $loggedUserId;
@@ -107,7 +114,11 @@ class OrderController extends Controller
 
             $orderPart = OrderPart::create($orderPartData);
         } else {
-            $order = Order::where('user_id', $loggedUserId)->where('status', 'DRAFT')->orderBy('created_at', 'desc')->first();
+            $order = Order::where('user_id', $loggedUserId)
+                                    ->where('status', 'DRAFT')
+                                    ->orderBy('created_at', 'desc')
+                                    ->first();
+                                    
             $product = Product::find($inputs['product_id']);
 
             $orderPartData['order_id'] = $order->id;
@@ -120,7 +131,8 @@ class OrderController extends Controller
             $orderPart = OrderPart::create($orderPartData);
         }
 
-        return redirect()->route('products.index');
+        return redirect()->route('products.index')->with('success', 'Product added to cart!');
+        ;
     }
 
     public function showCart()
@@ -145,5 +157,59 @@ class OrderController extends Controller
         }
 
         return view('cart.index', compact('userOrder', 'totalPrice'));
+    }
+
+    public function deleteOrderPart(Request $request)
+    {
+        $inputs = $request->all();
+        $orderPart = OrderPart::find($inputs['part_id']);
+        $orderPart->delete();
+
+        return redirect()->route('cart');
+    }
+
+    public function updateOrderStatus(Request $request)
+    {
+        $inputs = $request->all();
+        $loggedUser = Auth::user()->id;
+
+        if ($inputs['status'] == 'NEW') {
+            $order = Order::where('user_id', $loggedUser)
+                            ->where('status', 'DRAFT')
+                            ->orderBy('created_at', 'DESC')
+                            ->first();
+
+            $order->delivery_type = $inputs['delivery'];
+            $order->hour = $inputs['hour'];
+            $order->status = $inputs['status'];
+            $order->total_price = $inputs['totalPrice'];
+            $order->update();
+
+            return view('cart.orderSuccess');
+        }
+
+        if ($inputs['status'] == 'PROCESSING') {
+            $order = Order::find($inputs['id']);
+            $order->status = $inputs['status'];
+            $order->update();
+
+            return true;
+        }
+
+        if ($inputs['status'] == 'CANCELED') {
+            $order = Order::find($inputs['id']);
+            $order->status = $inputs['status'];
+            $order->update();
+
+            return true;
+        }
+
+        if ($inputs['status'] == 'DELIVERED') {
+            $order = Order::find($inputs['id']);
+            $order->status = $inputs['status'];
+            $order->update();
+
+            return true;
+        }
     }
 }
