@@ -5,10 +5,12 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12 margin-tb my-5">
+            @if(Auth::user()->user_role == 'ADMIN')
             <div class="card mb-4 border-0" style="width: 10.5em;margin:0 auto;">
                 <button class="btn btn-success" onclick="addProduct();">Add product</button>
             </div>
             <div id="add-product"></div>
+            @endif
             @if ($message = Session::get('success'))
             <div class="alert alert-success">
                 <p>{{ session()->get('success') }} </p>

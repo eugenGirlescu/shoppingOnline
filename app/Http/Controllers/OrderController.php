@@ -7,6 +7,8 @@ use Auth;
 use App\Order;
 use App\OrderPart;
 use App\Product;
+use App\Mail\PlaceOrder;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -184,6 +186,8 @@ class OrderController extends Controller
             $order->status = $inputs['status'];
             $order->total_price = $inputs['totalPrice'];
             $order->update();
+
+            Mail::to('euugen_90@yahoo.com')->send(new PlaceOrder());
 
             return view('cart.orderSuccess');
         }

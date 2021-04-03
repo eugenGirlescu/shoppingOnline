@@ -16,9 +16,10 @@
             value="{{ $product->expire_date }}" onchange="removeEditError('expire-date_{{ $product->id }}')" ; />
         <span id="date-error" class="text-danger"></span>
     </td>
+    <td></td>
     <td>
-        <button type="button" class="btn btn-success btn-md" onclick="updateProduct({{ $product->id }});">Update
+        <button type="button" class="btn btn-success btn-sm" onclick="updateProduct({{ $product->id }});">Update
             product</button>
-        <a href="{{ route('products.index') }}" class="btn btn-success">Back</a>
+        <a href="{{ route('products.index') }}" class="btn btn-success btn-sm">Back</a>
     </td>
 </tr>
